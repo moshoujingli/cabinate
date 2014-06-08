@@ -1,0 +1,12 @@
+
+index:
+    pattern: /index
+    defaults: { _controller: CabinateAdminBundle:Home:index }
+
+index:
+    pattern: /restaurant/index
+    defaults: { _controller: CabinateAdminBundle:RestaurantManagement:index }
+
+index:
+    pattern: /tableunit/index
+    defaults: { _controller: CabinateAdminBundle:TableUnitManagement:index }

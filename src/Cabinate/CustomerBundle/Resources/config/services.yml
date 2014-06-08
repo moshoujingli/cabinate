@@ -1,0 +1,7 @@
+parameters:
+#    cabinate_customer.example.class: Cabinate\CustomerBundle\Example
+
+services:
+#    cabinate_customer.example:
+#        class: %cabinate_customer.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

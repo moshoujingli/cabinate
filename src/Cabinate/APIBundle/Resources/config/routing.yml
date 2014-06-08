@@ -1,0 +1,14 @@
+restaurant:
+	type: rest
+	resource: Cabinate\APIBundle\Controller\RestaurantController
+preoduct:
+	type: rest
+	parent: restaurant
+	resource: Cabinate\APIBundle\Controller\ProductController
+table:
+	type: rest
+	resource: Cabinate\APIBundle\Controller\TableController
+order:
+	type: rest
+	parent: restaurant
+	resource: Cabinate\APIBundle\Controller\OrderController

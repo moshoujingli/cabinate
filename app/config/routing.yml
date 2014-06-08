@@ -1,0 +1,21 @@
+cabinate_api:
+	type: rest
+    resource: "@CabinateAPIBundle/Resources/config/routing.yml"
+    prefix:   /api
+
+cabinate_admin:
+    resource: "@CabinateAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+cabinate_restaurant:
+    resource: "@CabinateRestaurantBundle/Resources/config/routing.yml"
+    prefix:   /restaurant
+
+cabinate_customer:
+    resource: "@CabinateCustomerBundle/Resources/config/routing.yml"
+    prefix:   /customer
+
+# cabinate_dao:
+#     resource: "@CabinateDAOBundle/Resources/config/routing.yml"
+#     prefix:   /
+

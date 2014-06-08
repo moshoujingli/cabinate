@@ -1,0 +1,27 @@
+cabinate_customer_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: CabinateCustomerBundle:Default:index }
+
+index:
+    pattern: /index
+    defaults: { _controller: CabinateCustomerBundle:Product:index }
+
+detail:
+    pattern: /detail
+    defaults: { _controller: CabinateCustomerBundle:Product:detail }
+
+list:
+    pattern: /list
+    defaults: { _controller: CabinateCustomerBundle:Product:list }
+
+list:
+    pattern: /list
+    defaults: { _controller: CabinateCustomerBundle:OrderPlan:list }
+
+add:
+    pattern: /add
+    defaults: { _controller: CabinateCustomerBundle:OrderPlan:add }
+
+update:
+    pattern: /update
+    defaults: { _controller: CabinateCustomerBundle:OrderPlan:update }

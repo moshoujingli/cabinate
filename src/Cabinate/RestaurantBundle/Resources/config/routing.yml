@@ -1,0 +1,44 @@
+
+index:
+    pattern: /index
+    defaults: { _controller: CabinateRestaurantBundle:Home:index }
+
+index:
+    pattern: /productsmanagement/index
+    defaults: { _controller: CabinateRestaurantBundle:ProductsManagement:index }
+
+list:
+    pattern: /productsmanagement/list
+    defaults: { _controller: CabinateRestaurantBundle:ProductsManagement:list }
+
+add:
+    pattern: productsmanagement/add
+    defaults: { _controller: CabinateRestaurantBundle:ProductsManagement:add }
+
+delete:
+    pattern: /productsmanagement/delete
+    defaults: { _controller: CabinateRestaurantBundle:ProductsManagement:delete }
+
+update:
+    pattern: /productsmanagement/update
+    defaults: { _controller: CabinateRestaurantBundle:ProductsManagement:update }
+
+index:
+    pattern: /index
+    defaults: { _controller: CabinateRestaurantBundle:OrderPlanManagement:index }
+
+add:
+    pattern: /add
+    defaults: { _controller: CabinateRestaurantBundle:OrderPlanManagement:add }
+
+update:
+    pattern: /update
+    defaults: { _controller: CabinateRestaurantBundle:OrderPlanManagement:update }
+
+delete:
+    pattern: /delete
+    defaults: { _controller: CabinateRestaurantBundle:OrderPlanManagement:delete }
+
+list:
+    pattern: /list
+    defaults: { _controller: CabinateRestaurantBundle:OrderPlanManagement:list }
