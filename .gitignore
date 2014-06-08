@@ -14,3 +14,9 @@ app/config/parameters.yml
 
 # Composer
 composer.phar
+
+*.md
+LICENSE
+errlog.*
+access_log.*
+composer.lock
