@@ -36,6 +36,6 @@ monolog:
 
 assetic:
     use_controller: true
-
+nelmio_api_doc: ~
 #swiftmailer:
 #    delivery_address: me@example.com
