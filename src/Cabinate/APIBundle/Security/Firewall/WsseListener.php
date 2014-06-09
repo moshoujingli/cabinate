@@ -8,12 +8,13 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Cabinate\APIBundle\Security\Authentication\Token\WsseUserToken;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class WsseListener implements ListenerInterface
 {
     protected $securityContext;
     protected $authenticationManager;
-    protected $logger
+    protected $logger;
 
     public function __construct(SecurityContextInterface $securityContext, AuthenticationManagerInterface $authenticationManager,
     	LoggerInterface $logger)

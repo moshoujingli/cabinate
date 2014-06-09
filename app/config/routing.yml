@@ -1,5 +1,5 @@
 cabinate_api:
-	type: rest
+    type: rest
     resource: "@CabinateAPIBundle/Resources/config/routing.yml"
     prefix:   /api
 

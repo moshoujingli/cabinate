@@ -2,11 +2,11 @@ parameters:
 #    cabinate_api.example.class: Cabinate\APIBundle\Example
 
 services:
-	wsse.security.authentication.provider:
+    wsse.security.authentication.provider:
         class:  Cabinate\APIBundle\Security\Authentication\Provider\WsseProvider
         arguments: ["", "%kernel.cache_dir%/security/nonces"]
-  	wsse.security.authentication.listener:
-    	class:  Cabinate\APIBundle\Security\Firewall\WsseListener
-    	arguments: ["@security.context", "@security.authentication.manager","@logger"]
-    	tags:
-      		- { name: monolog.logger, channel: wsse }
+    wsse.security.authentication.listener:
+        class:  Cabinate\APIBundle\Security\Firewall\WsseListener
+        arguments: ["@security.context", "@security.authentication.manager","@logger"]
+        tags:
+            - { name: monolog.logger, channel: wsse }

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Cabinate\DAOBundle\Entity\ProductRepository")
  */
-class Product
+class Product extends Entity
 {
     /**
      * @var integer

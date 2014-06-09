@@ -1,36 +1,37 @@
 <?php
 
 namespace Cabinate\APIBundle\Controller;
-
+use FOS\RestBundle\Controller\Annotations\View;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Cabinate\DAOBundle\Entity\Restaurant;
 
 class RestaurantController extends APIBaseController 
 {
-    public function coptionsAction()
-    {} // "options_restaurants" [OPTIONS] /restaurants
 
-    public function cgetAction()
-    {} // "get_restaurants"     [GET] /restaurants
+    public function preExcute()
+    {
+        parent::preExcute();
+        $this->repository = $this->getDoctrine()->getRepository(Restaurant::getEntityName());
+    }
 
-    public function cpostAction()
-    {} // "post_restaurants"    [POST] /restaurants
 
-    public function cpatchAction()
-    {} // "patch_restaurants"   [PATCH] /restaurants
-
-    public function getAction($slug)
-    {} // "get_restaurant"      [GET] /restaurants/{slug}
-
-    public function editAction($slug)
-    {} // "edit_restaurant"     [GET] /restaurants/{slug}/edit
-
-    public function putAction($slug)
-    {} // "put_restaurant"      [PUT] /restaurants/{slug}
-
-    public function patchAction($slug)
-    {} // "patch_restaurant"    [PATCH] /restaurants/{slug}
-
-    public function deleteAction($slug)
-    {} // "delete_restaurant"   [DELETE] /restaurants/{slug}
-
+    /**
+    * @View()
+    * @ApiDoc()
+    * "get_restaurant"      [GET] /restaurants
+    */
+    public function cgetAction(){
+                $this->preExcute();
+        return $this->repository->findAll();
+    } 
+    /**
+    * @View()
+    * "get_restaurant"      [GET] /restaurants/{id}
+    * @ApiDoc()
+    */
+    public function getAction($id){
+        $this->preExcute();
+        return $this->repository->find($id);
+    }
 
 }

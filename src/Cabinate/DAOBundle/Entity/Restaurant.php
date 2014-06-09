@@ -10,8 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Cabinate\DAOBundle\Entity\RestaurantRepository")
  */
-class Restaurant
+class Restaurant extends Entity
 {
+
     /**
      * @var integer
      *
@@ -111,5 +112,32 @@ class Restaurant
     public function getTableUnits()
     {
         return $this->tableUnits;
+    }
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=50)
+     */
+    private $name;
+
+
+    /**
+     * Get Name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set Name
+     * @param string
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 }
