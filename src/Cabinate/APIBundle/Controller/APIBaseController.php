@@ -10,9 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 class APIBaseController extends FOSRestController implements ClassResourceInterface 
 {
 	protected $repository;
-
+	protected $em;
     protected function preExcute()
     {
+    	$this->em = $this->getDoctrine()->getEntityManager();
     }
 
     private function auth(Request $request)

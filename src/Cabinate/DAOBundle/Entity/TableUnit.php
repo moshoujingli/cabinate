@@ -143,7 +143,7 @@ class TableUnit extends Entity
     /**
      * Get TableKey
      *
-     * @return string 
+     * @return string
      */
     public function getTableKey()
     {

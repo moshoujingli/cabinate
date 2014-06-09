@@ -1,47 +1,36 @@
 <?php
 
 namespace Cabinate\APIBundle\Controller;
-
+use FOS\RestBundle\Controller\Annotations\View;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Cabinate\DAOBundle\Entity\TableUnit;
 class TableController extends APIBaseController 
 {
-    public function coptionsAction()
-    {} // "options_restaurants" [OPTIONS] /restaurants
 
-    public function cgetAction()
-    {} // "get_restaurants"     [GET] /restaurants
+    public function preExcute()
+    {
+        parent::preExcute();
+        $this->repository = $this->getDoctrine()->getRepository(TableUnit::getEntityName());
+    }
+    /**
+    * @View()
+    * "get_table"      [GET] /tables/{key}
+    * @ApiDoc()
+    */
+    public function getAction($key)
+    {
+        $this->preExcute();
+        return $this->repository->findOneBy(array('tableKey'=>$key));
 
-    public function cnewAction()
-    {} // "new_restaurants"     [GET] /restaurants/new
-
-    public function cpostAction()
-    {} // "post_restaurants"    [POST] /restaurants
-
-    public function cpatchAction()
-    {} // "patch_restaurants"   [PATCH] /restaurants
-
-    public function getAction($slug)
-    {} // "get_restaurant"      [GET] /restaurants/{slug}
-
-    public function editAction($slug)
-    {} // "edit_restaurant"     [GET] /restaurants/{slug}/edit
-
-    public function putAction($slug)
-    {} // "put_restaurant"      [PUT] /restaurants/{slug}
-
-    public function patchAction($slug)
-    {} // "patch_restaurant"    [PATCH] /restaurants/{slug}
-
-    public function lockAction($slug)
-    {} // "lock_restaurant"     [PATCH] /restaurants/{slug}/lock
-
-    public function banAction($slug)
-    {} // "ban_restaurant"      [PATCH] /restaurants/{slug}/ban
-
-    public function removeAction($slug)
-    {} // "remove_restaurant"   [GET] /restaurants/{slug}/remove
-
-    public function deleteAction($slug)
-    {} // "delete_restaurant"   [DELETE] /restaurants/{slug}
-
+    }
+    /**
+    * @View()
+    * "modify_table"      [PATCH] /tables/{key}
+    * @ApiDoc()
+    */
+    public function patchAction($key)
+    {
+        $table = $this->getAction($key);
+    }
 
 }

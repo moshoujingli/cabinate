@@ -21,9 +21,9 @@ class RestaurantController extends APIBaseController
     * "get_restaurant"      [GET] /restaurants
     */
     public function cgetAction(){
-                $this->preExcute();
+        $this->preExcute();
         return $this->repository->findAll();
-    } 
+    }
     /**
     * @View()
     * "get_restaurant"      [GET] /restaurants/{id}
