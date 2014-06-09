@@ -132,4 +132,30 @@ class TableUnit extends Entity
     {
         return $this->orderPlan;
     }
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="table_key", type="string", length=40)
+     */
+    private $tableKey;
+
+
+    /**
+     * Get TableKey
+     *
+     * @return string 
+     */
+    public function getTableKey()
+    {
+        return $this->tableKey;
+    }
+
+    /**
+     * Set TableKey
+     * @param string
+     */
+    public function setTableKey($tableKey)
+    {
+        $this->tableKey = $tableKey;
+    }
 }
