@@ -72,8 +72,14 @@ fos_rest:
     disable_csrf_role: ROLE_API
     routing_loader:
         default_format: json
+        include_format: false
     view:
         view_response_listener: force
+        formats:
+            xml: false
+            html: true
+            json: true
+        failed_validation: HTTP_BAD_REQUEST
 #sensio
 sensio_framework_extra:
     view:    { annotations: false }
