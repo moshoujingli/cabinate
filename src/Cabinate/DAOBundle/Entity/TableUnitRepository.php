@@ -12,4 +12,23 @@ use Doctrine\ORM\EntityRepository;
  */
 class TableUnitRepository extends EntityRepository
 {
+    public function search($param)
+    {
+        $queryBuilder = $this->createQueryBuilder('table');
+        $queryBuilder->innerJoin('table.restaurant','restaurant');
+        foreach ($param as $key => $value) {
+            if ($key!='restaurant_id') {
+                $queryBuilder->andWhere("table.$key = :$key")
+                             ->setParameter("$key", "$value");
+            }
+        }
+        if (isset($param['restaurant_id'])&&$param['restaurant_id']) {
+            $queryBuilder->andWhere("restaurant.id = :a")
+                         ->setParameter("a", $param['restaurant_id']);
+        }
+        $query = $queryBuilder->orderBy('table.id', 'DESC')
+                              ->getQuery();
+
+        return $query->getResult();
+    }
 }
