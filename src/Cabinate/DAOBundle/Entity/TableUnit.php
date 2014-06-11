@@ -2,11 +2,14 @@
 
 namespace Cabinate\DAOBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * TableUnit
- *
+ * @ExclusionPolicy("all")
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Cabinate\DAOBundle\Entity\TableUnitRepository")
  */
@@ -14,7 +17,7 @@ class TableUnit extends Entity
 {
     /**
      * @var integer
-     *
+     * @Expose
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -23,12 +26,13 @@ class TableUnit extends Entity
 
     /**
      * @var integer
-     *
+     * @Expose
      * @ORM\Column(name="status", type="smallint")
      */
     private $status;
 
     /**
+     * @Expose
      * @ORM\ManyToOne(targetEntity="Restaurant", inversedBy="tableUnits")
      * @ORM\JoinColumn(name="restaurant_id", referencedColumnName="id")
      */
@@ -134,7 +138,7 @@ class TableUnit extends Entity
     }
     /**
      * @var string
-     *
+     * @Expose
      * @ORM\Column(name="table_key", type="string", length=40)
      */
     private $tableKey;

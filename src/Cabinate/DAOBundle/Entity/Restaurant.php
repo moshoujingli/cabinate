@@ -1,12 +1,13 @@
 <?php
 
 namespace Cabinate\DAOBundle\Entity;
-
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Restaurant
- *
+ * @ExclusionPolicy("all")
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Cabinate\DAOBundle\Entity\RestaurantRepository")
  */
@@ -15,7 +16,7 @@ class Restaurant extends Entity
 
     /**
      * @var integer
-     *
+     * @Expose
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -116,7 +117,7 @@ class Restaurant extends Entity
 
     /**
      * @var string
-     *
+     * @Expose
      * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
