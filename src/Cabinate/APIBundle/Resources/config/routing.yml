@@ -1,14 +1,19 @@
-restaurant:
+# restaurant:
+#     type: rest
+#     resource: Cabinate\APIBundle\Controller\RestaurantController
+# preoduct:
+#     type: rest
+#     resource: Cabinate\APIBundle\Controller\ProductController
+table_unit_get:
+    pattern: /tableunits
     type: rest
-    resource: Cabinate\APIBundle\Controller\RestaurantController
-preoduct:
+    defaults: { _controller: CabinateAPIBundle:TableUnit:get }
+    methods:  [GET]
+table_unit_patch:
+    pattern: /tableunits
     type: rest
-    parent: restaurant
-    resource: Cabinate\APIBundle\Controller\ProductController
-table:
-    type: rest
-    resource: Cabinate\APIBundle\Controller\TableController
-order:
-    type: rest
-    parent: restaurant
-    resource: Cabinate\APIBundle\Controller\OrderController
+    defaults: { _controller: CabinateAPIBundle:TableUnit:patch }
+    methods:  [PATCH]
+# order:
+#     type: rest
+#     resource: Cabinate\APIBundle\Controller\OrderController
