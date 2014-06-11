@@ -11,9 +11,11 @@ class APIBaseController extends FOSRestController implements ClassResourceInterf
 {
 	protected $repository;
 	protected $em;
+	protected $logger;
     protected function preExcute()
     {
-    	$this->em = $this->getDoctrine()->getEntityManager();
+    	$this->em = $this->getDoctrine()->getManager();
+    	$this->logger = $this->get('logger');
     }
 
     private function auth(Request $request)
