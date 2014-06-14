@@ -10,3 +10,7 @@ services:
         arguments: ["@security.context", "@security.authentication.manager","@logger"]
         tags:
             - { name: monolog.logger, channel: wsse }
+    kernel.listener.apiExceptionListener:
+        class: Cabinate\APIBundle\Exceptions\CabinateAPIExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
