@@ -1,19 +1,36 @@
-# restaurant:
-#     type: rest
-#     resource: Cabinate\APIBundle\Controller\RestaurantController
-# preoduct:
-#     type: rest
-#     resource: Cabinate\APIBundle\Controller\ProductController
+# tableunit
 table_unit_get:
     pattern: /tableunits
     type: rest
     defaults: { _controller: CabinateAPIBundle:TableUnit:get }
     methods:  [GET]
 table_unit_patch:
-    pattern: /tableunits
+    pattern: /tableunits/{id}
     type: rest
     defaults: { _controller: CabinateAPIBundle:TableUnit:patch }
     methods:  [PATCH]
-# order:
-#     type: rest
-#     resource: Cabinate\APIBundle\Controller\OrderController
+    requirements:
+        id:   \d+
+table_unit_post:
+    pattern: /tableunits
+    type: rest
+    defaults: { _controller: CabinateAPIBundle:TableUnit:post }
+    methods:  [POST]
+# restaurant
+restaurant_get:
+    pattern: /restaurant
+    type: rest
+    defaults: { _controller: CabinateAPIBundle:Restaurant:get }
+    methods:  [GET]
+restaurant_patch:
+    pattern: /restaurant/{id}
+    type: rest
+    defaults: { _controller: CabinateAPIBundle:Restaurant:patch }
+    methods:  [PATCH]
+    requirements:
+        id:   \d+
+restaurant_post:
+    pattern: /restaurant
+    type: rest
+    defaults: { _controller: CabinateAPIBundle:Restaurant:post }
+    methods:  [POST]
