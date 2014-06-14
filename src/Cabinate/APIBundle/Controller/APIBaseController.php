@@ -22,4 +22,9 @@ class APIBaseController extends FOSRestController implements ClassResourceInterf
     {
     	# code...
     }
+    protected function getParams()
+    {
+        $content = $this->getRequest()->request->all();
+        return ($content);
+    }
 }
