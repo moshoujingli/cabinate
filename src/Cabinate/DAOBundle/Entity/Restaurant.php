@@ -1,6 +1,7 @@
 <?php
 
 namespace Cabinate\DAOBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use Doctrine\ORM\Mapping as ORM;
@@ -144,7 +145,7 @@ class Restaurant extends Entity
     /**
      * @var integer
      * @Expose
-     * @ORM\Column(name="status", type="integer")
+     * @ORM\Column(name="status", type="smallint")
      */
     private $status;
 
