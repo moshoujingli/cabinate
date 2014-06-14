@@ -141,4 +141,30 @@ class Restaurant extends Entity
     {
         $this->name = $name;
     }
+    /**
+     * @var integer
+     * @Expose
+     * @ORM\Column(name="status", type="integer")
+     */
+    private $status;
+
+
+    /**
+     * Get status
+     *
+     * @return integer 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set status
+     * @param integer
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
 }

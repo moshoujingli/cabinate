@@ -14,8 +14,15 @@ class TableUnitRepository extends EntityRepository
 {
     public function search($param)
     {
+        if (count($param)===0) {
+            return array();
+        }
         $queryBuilder = $this->createQueryBuilder('table');
         $queryBuilder->innerJoin('table.restaurant','restaurant');
+        if (!isset($param['status'])) {
+            $queryBuilder->andWhere("table.status != status")
+                             ->setParameter("status", "2");
+        }
         foreach ($param as $key => $value) {
             if ($key!='restaurant_id') {
                 $queryBuilder->andWhere("table.$key = :$key")
