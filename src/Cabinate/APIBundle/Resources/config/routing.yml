@@ -34,3 +34,53 @@ restaurant_post:
     type: rest
     defaults: { _controller: CabinateAPIBundle:Restaurant:post }
     methods:  [POST]
+# order
+order_get:
+    pattern: /order
+    type: rest
+    defaults: { _controller: CabinateAPIBundle:Order:get }
+    methods:  [GET]
+order_put:
+    pattern: /order/{id}
+    type: rest
+    defaults: { _controller: CabinateAPIBundle:Order:put }
+    methods:  [PUT]
+    requirements:
+        id:   \d+
+order_delete:
+    pattern: /order/{id}
+    type: rest
+    defaults: { _controller: CabinateAPIBundle:Order:delete }
+    methods:  [DELETE]
+    requirements:
+        id:   \d+
+order_post:
+    pattern: /order
+    type: rest
+    defaults: { _controller: CabinateAPIBundle:Order:post }
+    methods:  [POST]
+# product
+product_get:
+    pattern: /product
+    type: rest
+    defaults: { _controller: CabinateAPIBundle:Product:get }
+    methods:  [GET]
+product_put:
+    pattern: /product/{id}
+    type: rest
+    defaults: { _controller: CabinateAPIBundle:Product:put }
+    methods:  [PUT]
+    requirements:
+        id:   \d+
+product_delete:
+    pattern: /product/{id}
+    type: rest
+    defaults: { _controller: CabinateAPIBundle:Product:delete }
+    methods:  [DELETE]
+    requirements:
+        id:   \d+
+product_post:
+    pattern: /product
+    type: rest
+    defaults: { _controller: CabinateAPIBundle:Product:post }
+    methods:  [POST]

@@ -1,47 +1,56 @@
 <?php
 
 namespace Cabinate\APIBundle\Controller;
-
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Cabinate\DAOBundle\Entity\Product;
+use Cabinate\APIBundle\Exceptions\ResourceNotFoundException;
+use Cabinate\APIBundle\Exceptions\BadOperationException;
+/**
+ *
+ * get (id,restaurant,type,price)
+ * post (restaurant,type,price[,status])
+ * put (id=>restaurant,type,price[,status])
+ * delete (id)
+ *
+ */
 class ProductController extends APIBaseController 
 {
-    public function coptionsAction()
-    {} // "options_restaurants" [OPTIONS] /restaurants
-
-    public function cgetAction()
-    {} // "get_restaurants"     [GET] /restaurants
-
-    public function cnewAction()
-    {} // "new_restaurants"     [GET] /restaurants/new
-
-    public function cpostAction()
-    {} // "post_restaurants"    [POST] /restaurants
-
-    public function cpatchAction()
-    {} // "patch_restaurants"   [PATCH] /restaurants
-
-    public function getAction($slug)
-    {} // "get_restaurant"      [GET] /restaurants/{slug}
-
-    public function editAction($slug)
-    {} // "edit_restaurant"     [GET] /restaurants/{slug}/edit
-
-    public function putAction($slug)
-    {} // "put_restaurant"      [PUT] /restaurants/{slug}
-
-    public function patchAction($slug)
-    {} // "patch_restaurant"    [PATCH] /restaurants/{slug}
-
-    public function lockAction($slug)
-    {} // "lock_restaurant"     [PATCH] /restaurants/{slug}/lock
-
-    public function banAction($slug)
-    {} // "ban_restaurant"      [PATCH] /restaurants/{slug}/ban
-
-    public function removeAction($slug)
-    {} // "remove_restaurant"   [GET] /restaurants/{slug}/remove
-
-    public function deleteAction($slug)
-    {} // "delete_restaurant"   [DELETE] /restaurants/{slug}
+    public function preExcute()
+    {
+        parent::preExcute();
+        $this->repository = $this->getDoctrine()->getRepository(Product::getEntityName());
+    }
+    /**
+    * @Rest\View()
+    * @Rest\Get("/product")
+    * @ApiDoc(
+    * description="get the product by param",
+    * resource=true,
+    * output="Cabinate\DAOBundle\Entity\Product",
+    * parameters={
+    *     {"name"="id", "dataType"="integer", "required"=false, "description"="Product Id"},
+    *     {"name"="name", "dataType"="string", "required"=false, "description"="Product Name"},
+    *     {"name"="status", "dataType"="integer", "required"=false, "description"="Product status"},
+    *
+    * })
+    */
+    public function getAction()
+    {
+        # code...
+    }
+    public function putAction($id)
+    {
+        # code...
+    }
+    public function postAction()
+    {
+        # code...
+    }
+    public function deleteAction($id)
+    {
+        # code...
+    }
 
 
 }
