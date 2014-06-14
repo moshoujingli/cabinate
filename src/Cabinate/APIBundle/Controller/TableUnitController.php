@@ -8,11 +8,9 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Cabinate\DAOBundle\Entity\TableUnit;
 use Cabinate\DAOBundle\Entity\Restaurant;
 use Cabinate\DAOBundle\Form\TableUnitType;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TableUnitController extends APIBaseController 
 {
-    private $form;
     public function preExcute()
     {
         parent::preExcute();
@@ -27,9 +25,9 @@ class TableUnitController extends APIBaseController
     * output="Cabinate\DAOBundle\Entity\TableUnit",
     * parameters={
     *     {"name"="id", "dataType"="integer", "required"=false, "description"="TableUnit Id"},
-    *     {"name"="key", "dataType"="string", "required"=false, "description"="TableUnit Name"},
+    *     {"name"="key", "dataType"="string", "required"=false, "description"="TableUnit HashKey"},
     *     {"name"="status", "dataType"="integer", "required"=false, "description"="TableUnit status"},
-    *     {"name"="restaurant_id", "dataType"="integer", "required"=false, "description"="Restaurant status"}
+    *     {"name"="restaurant_id", "dataType"="integer", "required"=false, "description"="Restaurant id"}
     *
     * })
     */
@@ -42,28 +40,28 @@ class TableUnitController extends APIBaseController
             if (is_numeric($query->get('id'))) {
                 $parameters['id']=$query->get('id');
             }else{
-                return array('error'=>'id must be a number');
+                throw new BadOperationException('id must be a number');
             }
         }
         if ($query->get('key')!==null) {
             if (strlen($query->get('key'))==40) {
                 $parameters['key']=$query->get('key');
             }else{
-                return array('error'=>'key is not in a right format');
+                throw new BadOperationException('key is not in a right format');
             }
         }
         if ($query->get('status')!==null) {
             if (is_numeric($query->get('status'))) {
                 $parameters['status']=$query->get('status');
             }else{
-                return array('error'=>'status must be a number');
+                throw new BadOperationException('status must be a number');
             }
         }
         if ($query->get('restaurant_id')!==null) {
             if (is_numeric($query->get('restaurant_id'))) {
                 $parameters['restaurant_id']=$query->get('restaurant_id');
             }else{
-                return array('error'=>'restaurant_id must be a number');
+                throw new BadOperationException('restaurant_id must be a number');
             }
         }
         $this->logger->info(print_r($query,true));
@@ -71,6 +69,8 @@ class TableUnitController extends APIBaseController
         $tableunits = $this->repository->search($parameters);
         if (count($tableunits)) {
             return $tableunits;
+        }else{
+            throw new ResourceNotFoundException("No table with parameters like ".json_encode($parameters));
         }
     }
     /**
@@ -96,9 +96,8 @@ class TableUnitController extends APIBaseController
     public function patchAction($id)
     {
         $this->preExcute();
-        $result = $this->repository->search(array('id'=>$id));
-        if (count($result)) {
-            $tableunit = $result[0];
+        $tableunit = $this->repository->findOneById($id);
+        if (count($tableunit)) {
             $parameters = $this->getParams();
             if ($parameters['op']!='change'
                 ||
@@ -140,7 +139,7 @@ class TableUnitController extends APIBaseController
         $restaurant_id = $parameters['restaurant_id'];
         if (isset($restaurant_id)&&is_numeric($restaurant_id)) {
             $restaurantRepository = $this->getDoctrine()->getRepository(Restaurant::getEntityName());
-            $restaurant = $restaurantRepository->find($restaurant_id);
+            $restaurant = $restaurantRepository->findOneById($restaurant_id);
             if (!($restaurant instanceof Restaurant)) {
                 throw new BadOperationException('restaurant_id is not found');
             }else{
