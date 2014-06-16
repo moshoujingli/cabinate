@@ -1,12 +1,15 @@
 <?php
 
 namespace Cabinate\DAOBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Product
- *
+ * @ExclusionPolicy("all")
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Cabinate\DAOBundle\Entity\ProductRepository")
  */
@@ -14,7 +17,7 @@ class Product extends Entity
 {
     /**
      * @var integer
-     *
+     * @Expose
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -23,15 +26,15 @@ class Product extends Entity
 
     /**
      * @var float
-     *
+     * @Expose
      * @ORM\Column(name="price", type="float")
      */
     private $price;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="status", type="smallint")
+     * @Expose
+     * @ORM\Column(name="status", type="smallint",options={"comment"="0 normal,1 deleted"})
      */
     private $status;
 
@@ -163,4 +166,56 @@ class Product extends Entity
     {
         return $this->orderPlan;
     }
+
+    /**
+     * @var string
+     * @Expose
+     * @ORM\Column(name="name", type="string", length=50)
+     */
+    private $name;
+
+
+    /**
+     * Get Name
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set Name
+     * @param string
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+    /**
+     * @var integer
+     * @Expose
+     * @ORM\Column(name="type", type="smallint",options={"comment"="0 food,1 drink"})
+     */
+    private $type;
+
+
+    /**
+     * Get type
+     * @return integer 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set type
+     * @param integer
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
 }

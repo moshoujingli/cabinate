@@ -1,20 +1,22 @@
 <?php
 
 namespace Cabinate\DAOBundle\Entity;
-
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * OrderPlan
- *
+ * @ExclusionPolicy("all")
  * @ORM\Table()
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass="Cabinate\DAOBundle\Entity\OrderPlanRepository")
  */
 class OrderPlan extends Entity
 {
     /**
      * @var integer
-     *
+     * @Expose
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -34,36 +36,36 @@ class OrderPlan extends Entity
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="status", type="smallint")
+     * @Expose
+     * @ORM\Column(name="status", type="smallint",options={"comment"="0 selected,1 send,2 preparing,3 prepared,4 served"})
      */
     private $status;
 
     /**
      * @var integer
-     *
+     * @Expose
      * @ORM\Column(name="trade_session_id", type="integer")
      */
     private $tradeSessionId;
 
     /**
      * @var \DateTime
-     *
+     * @Expose
      * @ORM\Column(name="created_time", type="datetime")
      */
     private $createdTime;
 
     /**
      * @var \DateTime
-     *
+     * @Expose
      * @ORM\Column(name="updated_time", type="datetime")
      */
     private $updatedTime;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="served_time", type="datetime")
+     * @Expose
+     * @ORM\Column(name="served_time", type="datetime",nullable=true)
      */
     private $servedTime;
 
@@ -237,5 +239,20 @@ class OrderPlan extends Entity
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setUpdatedTimeValue()
+    {
+        if ($this->status==0) {
+            $this->createdTime = new \DateTime();
+        }
+        if ($this->status==4) {
+            $this->servedTime = new \DateTime();
+        }
+        $this->updatedTime = new \DateTime();
+
     }
 }
