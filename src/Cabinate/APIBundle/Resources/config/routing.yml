@@ -59,6 +59,13 @@ order_post:
     type: rest
     defaults: { _controller: CabinateAPIBundle:Order:post }
     methods:  [POST]
+order_patch:
+    pattern: /order/{id}
+    type: rest
+    defaults: { _controller: CabinateAPIBundle:Order:patch }
+    methods:  [PATCH]
+    requirements:
+        id:   \d+
 # product
 product_get:
     pattern: /product
