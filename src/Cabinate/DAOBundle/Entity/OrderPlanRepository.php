@@ -12,4 +12,39 @@ use Doctrine\ORM\EntityRepository;
  */
 class OrderPlanRepository extends EntityRepository
 {
+    public function search($param)
+    {
+        if (count($param)===0) {
+            return array();
+        }
+        $queryBuilder = $this->createQueryBuilder('orderPlan');
+        $queryBuilder->innerJoin('orderPlan.tableUnit','tableUnit');
+        $queryBuilder->innerJoin('orderPlan.product','product');
+
+        if (isset($param['table_id'])&&$param['table_id']) {
+            $queryBuilder->andWhere("tableUnit.id = :a")
+                         ->setParameter("a", $param['table_id']);
+        }
+        if (isset($param['product_id'])&&$param['product_id']) {
+            $queryBuilder->andWhere("product.id = :b")
+                         ->setParameter("b", $param['product_id']);
+        }
+        foreach ($param as $key => $value) {
+            if (!in_array($key, array('table_id','product_id'))&&!is_array($value)) {
+                $queryBuilder->andWhere("orderPlan.$key = :$key")
+                             ->setParameter("$key", "$value");
+            }
+            if (strpos($key, "edTime")) {
+                $ceiling = $value[1];
+                $floor = $value[0];
+                $queryBuilder->andWhere("orderPlan.$key between :floor and :ceiling")
+                             ->setParameter("floor", strftime('%Y-%m-%d %H:%M:%S',$floor))
+                             ->setParameter("ceiling", strftime('%Y-%m-%d %H:%M:%S',$ceiling));
+            }
+        }
+        $query = $queryBuilder->orderBy('orderPlan.id', 'DESC')
+                              ->getQuery();
+
+        return $query->getResult();
+    }
 }

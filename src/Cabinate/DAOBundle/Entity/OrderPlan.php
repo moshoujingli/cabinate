@@ -37,7 +37,7 @@ class OrderPlan extends Entity
     /**
      * @var integer
      * @Expose
-     * @ORM\Column(name="status", type="smallint",options={"comment"="0 selected,1 send,2 preparing,3 prepared,4 served"})
+     * @ORM\Column(name="status", type="smallint",options={"comment"="0 selected,1 send,2 preparing,3 prepared,4 served,5 deleted"})
      */
     private $status;
 
@@ -243,6 +243,7 @@ class OrderPlan extends Entity
 
     /**
      * @ORM\PrePersist
+     * @ORM\PreUpdate()
      */
     public function setUpdatedTimeValue()
     {

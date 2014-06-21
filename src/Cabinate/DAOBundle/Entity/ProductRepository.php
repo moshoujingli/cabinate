@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProductRepository extends EntityRepository
 {
-	public function search($param)
+    public function search($param)
     {
         if (count($param)===0) {
             return array();
