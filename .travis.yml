@@ -4,7 +4,7 @@ php:
   - 5.4
   - 5.5
 
-before_script: composer install -n
+before_script: composer install --dev --no-interaction
 
 script:
     - mkdir -p build/logs
