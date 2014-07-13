@@ -23,7 +23,8 @@ class AppKernel extends Kernel
             new Cabinate\APIBundle\CabinateAPIBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
-            new Nelmio\ApiDocBundle\NelmioApiDocBundle()
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            new Cabinate\UtilsBundle\CabinateUtilsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

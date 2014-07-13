@@ -19,3 +19,5 @@ LICENSE
 errlog.*
 access_log.*
 composer.lock
+web/cover
+bin
