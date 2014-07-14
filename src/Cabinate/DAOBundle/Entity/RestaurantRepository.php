@@ -12,8 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class RestaurantRepository extends EntityRepository
 {
-	public function findOneById($id)
-	{
-		return parent::findOneById($id);
-	}
+    public function findOneById($id)
+    {
+        return parent::findOneById($id);
+    }
 }

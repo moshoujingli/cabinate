@@ -20,8 +20,8 @@ class TableUnitModel
     }
     public function getTable($query)
     {
-    	$parameters = array();
-    	if ($query->get('id')!==null) {
+        $parameters = array();
+        if ($query->get('id')!==null) {
             if (is_numeric($query->get('id'))) {
                 $parameters['id']=$query->get('id');
             }else{
@@ -60,23 +60,24 @@ class TableUnitModel
     }
     public function changeTable($id,$parameters)
     {
-        $tableunit = $this->repository->findOneById($id);
-        if (count($tableunit)) {
-            if ($parameters['op']!='change'
-                ||
-                $parameters['path']!='status'
-                ||
-                !in_array($parameters['new'], array(0,1,2,3,4,5))
-                ) {
-                throw new BadOperationException("Bad Operation Args");
-            }else{
+        if ($parameters['op']!='change'
+            ||
+            $parameters['path']!='status'
+            ||
+            !in_array($parameters['new'], array(0,1,2,3,4,5))
+            ) {
+            throw new BadOperationException("Bad Operation Args");
+        }else{
+            $tableunit = $this->repository->findOneById($id);
+            if (count($tableunit)) {
                 $tableunit->setStatus($parameters['new']);
                 $this->em->persist($tableunit);
                 $this->em->flush();
+            }else{
+                throw new ResourceNotFoundException("No table with id $id");
             }
-        }else{
-            throw new ResourceNotFoundException("No table with id $id");
         }
+        
     }
     public function saveTable($parameters)
     {
