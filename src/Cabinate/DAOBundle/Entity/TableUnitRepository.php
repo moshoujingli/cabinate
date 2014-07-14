@@ -20,7 +20,7 @@ class TableUnitRepository extends EntityRepository
         $queryBuilder = $this->createQueryBuilder('table');
         $queryBuilder->innerJoin('table.restaurant','restaurant');
         if (!isset($param['status'])) {
-            $queryBuilder->andWhere("table.status != status")
+            $queryBuilder->andWhere("table.status != :status")
                              ->setParameter("status", "2");
         }
         foreach ($param as $key => $value) {

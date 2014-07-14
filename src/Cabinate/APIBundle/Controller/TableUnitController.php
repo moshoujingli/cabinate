@@ -8,13 +8,14 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Cabinate\DAOBundle\Entity\TableUnit;
 use Cabinate\DAOBundle\Entity\Restaurant;
 use Cabinate\DAOBundle\Form\TableUnitType;
+use Cabinate\APIBundle\Model\TableUnitModel;
 
 class TableUnitController extends APIBaseController 
 {
     public function preExcute()
     {
         parent::preExcute();
-        $this->repository = $this->getDoctrine()->getRepository(TableUnit::getEntityName());
+        $this->model= new TableUnitModel($this->em,$this->logger);
     }
     /**
     * @Rest\View()
@@ -34,44 +35,8 @@ class TableUnitController extends APIBaseController
     public function getAction()
     {
         $this->preExcute();
-        $parameters = array();
         $query = $this->getRequest()->query;
-        if ($query->get('id')!==null) {
-            if (is_numeric($query->get('id'))) {
-                $parameters['id']=$query->get('id');
-            }else{
-                throw new BadOperationException('id must be a number');
-            }
-        }
-        if ($query->get('key')!==null) {
-            if (strlen($query->get('key'))==40) {
-                $parameters['key']=$query->get('key');
-            }else{
-                throw new BadOperationException('key is not in a right format');
-            }
-        }
-        if ($query->get('status')!==null) {
-            if (is_numeric($query->get('status'))) {
-                $parameters['status']=$query->get('status');
-            }else{
-                throw new BadOperationException('status must be a number');
-            }
-        }
-        if ($query->get('restaurant_id')!==null) {
-            if (is_numeric($query->get('restaurant_id'))) {
-                $parameters['restaurant_id']=$query->get('restaurant_id');
-            }else{
-                throw new BadOperationException('restaurant_id must be a number');
-            }
-        }
-        $this->logger->info(print_r($query,true));
-        $this->logger->info(print_r($parameters,true));
-        $tableunits = $this->repository->search($parameters);
-        if (count($tableunits)) {
-            return $tableunits;
-        }else{
-            throw new ResourceNotFoundException("No table with parameters like ".json_encode($parameters));
-        }
+        return $this->model->getTable($query);
     }
     /**
     * @Rest\View(statusCode=204)
@@ -96,24 +61,7 @@ class TableUnitController extends APIBaseController
     public function patchAction($id)
     {
         $this->preExcute();
-        $tableunit = $this->repository->findOneById($id);
-        if (count($tableunit)) {
-            $parameters = $this->getParams();
-            if ($parameters['op']!='change'
-                ||
-                $parameters['path']!='status'
-                ||
-                !in_array($parameters['new'], array(0,1,2,3,4,5))
-                ) {
-                throw new BadOperationException();
-            }else{
-                $tableunit->setStatus($parameters['new']);
-                $this->em->persist($tableunit);
-                $this->em->flush();
-            }
-        }else{
-            throw new ResourceNotFoundException();
-        }
+        $this->model->changeTable($id,$this->getParams());
     }
     /**
     * @Rest\View(statusCode=201)
@@ -136,24 +84,7 @@ class TableUnitController extends APIBaseController
     {
         $this->preExcute();
         $parameters = $this->getParams();
-        $restaurant_id = $parameters['restaurant_id'];
-        if (isset($restaurant_id)&&is_numeric($restaurant_id)) {
-            $restaurantRepository = $this->getDoctrine()->getRepository(Restaurant::getEntityName());
-            $restaurant = $restaurantRepository->findOneById($restaurant_id);
-            if (!($restaurant instanceof Restaurant)) {
-                throw new BadOperationException('restaurant_id is not found');
-            }else{
-                $tableunit = new Tableunit();
-                $tableunit->setStatus(isset($parameters['status'])?$parameters['status']:0);
-                $tableunit->setRestaurant($restaurant);
-                $tableunit->setTableKey(sha1(uniqid(mt_rand(),true)));
-                $this->em->persist($tableunit);
-                $this->em->flush();
-                return $tableunit;
-            }
-        }else{
-            throw new BadOperationException('restaurant_id is invalid');
-        }
+        return $this->model->saveTable($parameters);
     }
 
 }
