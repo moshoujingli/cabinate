@@ -7,7 +7,7 @@ use Cabinate\DAOBundle\Entity\Product;
 use Cabinate\DAOBundle\Entity\Restaurant;
 use Cabinate\APIBundle\Exceptions\ResourceNotFoundException;
 use Cabinate\APIBundle\Exceptions\BadOperationException;
-
+use Cabinate\APIBundle\Model\ProductModel;
 
 
 class ProductController extends APIBaseController 
@@ -16,8 +16,7 @@ class ProductController extends APIBaseController
     public function preExcute()
     {
         parent::preExcute();
-        $this->repository = $this->getDoctrine()->getRepository(Product::getEntityName());
-        $this->restaurantRepository = $this->getDoctrine()->getRepository(Restaurant::getEntityName());
+        $this->model= new ProductModel($this->em,$this->logger);
     }
     /**
     * @Rest\View()
@@ -160,21 +159,8 @@ class ProductController extends APIBaseController
     */
     public function postAction()
     {
-        $this->preExcute();
-        $parameters = $this->getParams();
-        $restaurant = $this->restaurantRepository->findOneBy($parameters['restaurant']);
-        if (!($restaurant instanceof Restaurant)) {
-            throw new ResourceNotFoundException("Restaurant entity not found :".json_encode($parameters['restaurant']));
-        }
-        $product = new Product();
-        $product->setRestaurant($restaurant);
-        $product->setName($parameters['name']);
-        $product->setPrice($parameters['price']);
-        $product->setStatus(0);
-        $product->setType($parameters['type']);
-        $this->em->persist($product);
-        $this->em->flush();
-        return $product;
+        $this->preExcute();        
+        return $this->model->saveProduct($this->getParams());
 
     }
     /**
@@ -191,14 +177,7 @@ class ProductController extends APIBaseController
     public function deleteAction($id)
     {
         $this->preExcute();
-        $product = $this->repository->findOneById($id);
-        if ($product instanceof Product) {
-            $product->setStatus(1);
-            $this->em->persist($product);
-            $this->em->flush();
-        }else{
-            throw new ResourceNotFoundException("Product to delete not exists with id $id");
-        }
+        $this->model->deleteProduct($id);
     }
 
 

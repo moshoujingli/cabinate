@@ -46,4 +46,8 @@ class ProductRepository extends EntityRepository
 
         return $query->getResult();
     }
+    public function findOneById($id)
+    {
+        return parent::findOneById($id);
+    }
 }
