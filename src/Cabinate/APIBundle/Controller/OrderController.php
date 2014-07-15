@@ -212,7 +212,7 @@ class OrderController extends APIBaseController
     * @Rest\View(statusCode=204)
     * @Rest\Patch("/order")
     * @ApiDoc(    
-    * description="change the order by param,currently support status,served_time",
+    * description="change the order by param,currently support status,and this will effect served_time",
     * resource=false,
     * output="string",
     * input="integer",

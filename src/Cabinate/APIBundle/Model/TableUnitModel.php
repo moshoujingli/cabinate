@@ -11,6 +11,7 @@ use Cabinate\APIBundle\Exceptions\ResourceNotFoundException;
 class TableUnitModel
 {
     private $em;
+    private $logger;
     private $repository;
     public function __construct($em,$logger)
     {

@@ -9,6 +9,7 @@ use Cabinate\APIBundle\Exceptions\ResourceNotFoundException;
 class RestaurantModel
 {
     private $em;
+    private $logger;
     private $repository;
     public function __construct($em,$logger)
     {
