@@ -24,9 +24,29 @@ class ProductModel
     {
         # code...
     }
-    public function changeProduct($id,$params)
+    public function changeProduct($id,$parameters)
     {
-        # code...
+        if (count($undefind = $this->hasKeys(array('name','price','type','restaurant'),$parameters))>0) {
+            throw new BadOperationException("Undefind Args :".json_encode($undefind));
+        }
+
+        $product = $this->repository->findOneById($id);
+        if ($product instanceof Product) {
+            $restaurant = $this->restaurantRepository->findOneBy($parameters['restaurant']);
+            if (!($restaurant instanceof Restaurant)) {
+                throw new ResourceNotFoundException("Restaurant entity not found :".json_encode($parameters['restaurant']));
+            }
+            $product->setRestaurant($restaurant);
+            $product->setName($parameters['name']);
+            $product->setPrice($parameters['price']);
+            $product->setStatus(isset($parameters['status'])?$parameters['status']:0);
+            $product->setType($parameters['type']);
+            $this->em->persist($product);
+            $this->em->flush();
+
+        }else{
+            throw new ResourceNotFoundException("Product to update not exists with id $id");
+        }
     }
     public function deleteProduct($id)
     {

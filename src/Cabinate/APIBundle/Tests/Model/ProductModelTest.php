@@ -79,7 +79,24 @@ class ProductModelTest extends CabinateTestUnit
     }   
     public function testChangeProduct()
     {
+        $params = array('name'=>'kuk','price'=>12,'type'=>1,'restaurant'=>array('id'=>1));
+        $this->object->changeProduct(0,$params);
+        try{
+            $this->object->changeProduct(1,$params);
+            $this->fail('Expecct Exception for no product');
+        }catch(ResourceNotFoundException $e){
+        }
 
-
+        try{
+            $this->object->changeProduct(0,$params);
+            $this->fail('Expecct Exception for no restaurant');
+        }catch(ResourceNotFoundException $e){
+        }
+        try{
+            $params = array();
+            $this->object->changeProduct(1,$params);
+            $this->fail('Expecct Exception for bad param');
+        }catch(BadOperationException $e){
+        }
     }
 }
