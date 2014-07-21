@@ -19,12 +19,20 @@ class ProductModelTest extends CabinateTestUnit
             ->disableOriginalConstructor()
             ->getMock();
         $repository->expects($this->any())
-             ->method('findOneById')
-             ->will($this->returnCallback(function ($id)
-             {
-                 $rtn = array(new Product(),null);
-                 return $rtn[$id];
-             }));
+            ->method('findOneById')
+            ->will($this->returnCallback(function ($id)
+            {
+             $rtn = array(new Product(),null);
+             return $rtn[$id];
+            }));
+         $repository->expects($this->any())
+            ->method('search')
+            ->will($this->returnCallback(function ($param)
+            {
+                if (isset($param['id'])&&$param['id']==0) {
+                    return new Product();
+                }
+            }));
         $restaurantRepository=$this->getMockBuilder('Cabinate\DAOBundle\Entity\RestaurantRepository')
             ->disableOriginalConstructor()
             ->getMock();
@@ -48,8 +56,73 @@ class ProductModelTest extends CabinateTestUnit
     }
     public function testGetProduct()
     {
-
-
+        $query  = $this->getMockBuilder('Symfony\Component\HttpFoundation\ParameterBag')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $ctx = $this;
+        $query->expects($this->any())
+            ->method('get')
+            ->will($this->returnCallback(function ($name) use($ctx)
+            {
+                $params = $ctx->params;
+                return isset($params[$name])?$params[$name]:null;
+            }));
+        try{
+            $this->params=array('id'=>'a');
+            $this->object->getProduct($query);
+            $this->fail('Expecct Exception for id a ');
+        }catch(BadOperationException $e){
+        }
+        try{
+            $this->params=array('id'=>1,'status'=>'s');
+            $this->object->getProduct($query);
+            $this->fail('Expecct Exception for status s');
+        }catch(BadOperationException $e){
+        }
+        try{
+            $this->params=array('id'=>1,'status'=>2,'name'=>'');
+            $this->object->getProduct($query);
+            $this->fail('Expecct Exception for no name');
+        }catch(BadOperationException $e){
+        }
+        try{
+            $this->params=array('id'=>1,'status'=>2,'name'=>'');
+            $this->object->getProduct($query);
+            $this->fail('Expecct Exception for no name');
+        }catch(BadOperationException $e){
+        }
+        try{
+            $this->params=array('id'=>1,'status'=>2,'name'=>'s','type'=>'a');
+            $this->object->getProduct($query);
+            $this->fail('Expecct Exception for type a');
+        }catch(BadOperationException $e){
+        }
+        try{
+            $this->params=array('id'=>1,'status'=>2,'name'=>'s','type'=>2,'floor'=>'a');
+            $this->object->getProduct($query);
+            $this->fail('Expecct Exception for floor a');
+        }catch(BadOperationException $e){
+        }
+        try{
+            $this->params=array('id'=>1,'status'=>2,'name'=>'s','type'=>2,'floor'=>2,'ceiling'=>'a');
+            $this->object->getProduct($query);
+            $this->fail('Expecct Exception for ceiling a');
+        }catch(BadOperationException $e){
+        }
+        try{
+            $this->params=array('id'=>1,'status'=>2,'name'=>'s','type'=>2,'floor'=>2,'ceiling'=>5,'restaurant_id'=>'a');
+            $this->object->getProduct($query);
+            $this->fail('Expecct Exception for restaurant_id a');
+        }catch(BadOperationException $e){
+        }
+        try{
+            $this->params=array('id'=>1,'status'=>2,'name'=>'s','type'=>2,'floor'=>2,'ceiling'=>5,'restaurant_id'=>0);
+            $this->object->getProduct($query);
+            $this->fail('Expecct Exception for id 1');
+        }catch(ResourceNotFoundException $e){
+        }
+        $this->params=array('id'=>0,'status'=>1,'name'=>'s','type'=>2,'floor'=>2,'ceiling'=>5,'restaurant_id'=>0);
+        $this->object->getProduct($query);
     }    
     public function testSaveProduct()
     {

@@ -39,65 +39,8 @@ class ProductController extends APIBaseController
     public function getAction()
     {
         $this->preExcute();
-        $parameters = array();
         $query = $this->getRequest()->query;
-        if ($query->get('id')!==null) {
-            if (is_numeric($query->get('id'))) {
-                $parameters['id']=$query->get('id');
-            }else{
-                throw new BadOperationException('id must be a number');
-            }
-        }
-        if ($query->get('name')!==null) {
-            if (strlen($query->get('name'))!==0) {
-                $parameters['name']=$query->get('name');
-            }else{
-                throw new BadOperationException('name is not in a right format');
-            }
-        }
-        if ($query->get('status')!==null) {
-            if (is_numeric($query->get('status'))) {
-                $parameters['status']=$query->get('status');
-            }else{
-                throw new BadOperationException('status must be a number');
-            }
-        }
-        if ($query->get('type')!==null) {
-            if (is_numeric($query->get('type'))) {
-                $parameters['type']=$query->get('type');
-            }else{
-                throw new BadOperationException('type must be a number');
-            }
-        }
-        if ($query->get('floor')!==null) {
-            if (is_numeric($query->get('floor'))) {
-                $parameters['floor']=$query->get('floor');
-            }else{
-                throw new BadOperationException('floor must be a number');
-            }
-        }
-        if ($query->get('ceiling')!==null) {
-            if (is_numeric($query->get('ceiling'))) {
-                $parameters['ceiling']=$query->get('ceiling');
-            }else{
-                throw new BadOperationException('ceiling must be a number');
-            }
-        }
-        if ($query->get('restaurant_id')!==null) {
-            if (is_numeric($query->get('restaurant_id'))) {
-                $parameters['restaurant_id']=$query->get('restaurant_id');
-            }else{
-                throw new BadOperationException('restaurant_id must be a number');
-            }
-        }
-        $this->logger->info(print_r($query,true));
-        $this->logger->info(print_r($parameters,true));
-        $products = $this->repository->search($parameters);
-        if (count($products)) {
-            return $products;
-        }else{
-            throw new ResourceNotFoundException("No product with parameters like ".json_encode($parameters));
-        }
+        return $this->model->getProduct($query);
     }
     /**
     * @Rest\View(statusCode=204)
