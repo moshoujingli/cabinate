@@ -12,7 +12,6 @@ use Cabinate\APIBundle\Model\ProductModel;
 
 class ProductController extends APIBaseController 
 {
-    private $restaurantRepository;
     public function preExcute()
     {
         parent::preExcute();
