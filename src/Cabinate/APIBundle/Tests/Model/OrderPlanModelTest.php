@@ -7,6 +7,7 @@ use Cabinate\UtilsBundle\lib\CabinateTestUnit;
 use Cabinate\DAOBundle\Entity\OrderPlan;
 use Cabinate\DAOBundle\Entity\TableUnit;
 use Cabinate\DAOBundle\Entity\Product;
+use Cabinate\DAOBundle\Entity\Restaurant;
 use Cabinate\APIBundle\Exceptions\BadOperationException;
 use Cabinate\APIBundle\Exceptions\ResourceNotFoundException;
 class OrderPlanModelTest extends CabinateTestUnit
@@ -36,18 +37,26 @@ class OrderPlanModelTest extends CabinateTestUnit
                     return new OrderPlan();
                 }
             }));
+        $restaurant= new Restaurant();
+        $tableUnit = new TableUnit();
+        $tableUnit->setRestaurant($restaurant);
+        $product = new Product();
+        $product->setRestaurant($restaurant);
         $tableUnitRepository=$this->getMockBuilder('Cabinate\DAOBundle\Entity\TableUnitRepository')
             ->disableOriginalConstructor()
             ->getMock();
+
         $tableUnitRepository->expects($this->any())
              ->method('findOneBy')
-             ->will($this->onConsecutiveCalls(new TableUnit(),null));
+             ->will($this->onConsecutiveCalls($tableUnit,null));
         $productRepository=$this->getMockBuilder('Cabinate\DAOBundle\Entity\ProductRepository')
             ->disableOriginalConstructor()
             ->getMock();
+
+
         $productRepository->expects($this->any())
              ->method('findOneBy')
-             ->will($this->onConsecutiveCalls(new Product(),null));
+             ->will($this->onConsecutiveCalls($product,null));
 
         $rtn = array(
                     OrderPlan::getEntityName()=>$repository,
@@ -67,6 +76,28 @@ class OrderPlanModelTest extends CabinateTestUnit
     }
     public function testGetOrderPlan()
     {
+        $query  = $this->getMockBuilder('Symfony\Component\HttpFoundation\ParameterBag')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $ctx = $this;
+        $query->expects($this->any())
+            ->method('get')
+            ->will($this->returnCallback(function ($name) use($ctx)
+            {
+                $params = $ctx->params;
+                return isset($params[$name])?$params[$name]:null;
+            }));
+        $this->params=array(
+            'id'=>0,
+            'status'=>0,
+            'TradeSessionId'=>0,
+            'product_id'=>0,
+            'table_id'=>0,
+            'createdTime'=>'11-33',
+            'updatedTime'=>'11-33',
+            'servedTime'=>'11-33'
+            );
+        $this->object->getOrderPlan($query);
 
     }     
     public function testDeleteOrderPlan()
@@ -86,16 +117,27 @@ class OrderPlanModelTest extends CabinateTestUnit
     }
     public function testSaveOrderPlan()
     {
-
+        $parameters = array();
+        $parameters['table']= array();
+        $parameters['product']= array();
+        $parameters['TradeSessionId']= 1;
+        $this->object->saveOrderPlan($parameters);
     }    
     public function testChangeState()
     {
-
+        $parameters = array('op'=>'change','path'=>'status','new'=>'');
+        $id= 0;
+        $this->object->changeOrderPlanStatus($id,$parameters);
 
     }    
     public function testChangeOrderPlan()
     {
-
+        $parameters = array();
+        $parameters['table']= array();
+        $parameters['status']= 2;
+        $parameters['product']= array();
+        $parameters['TradeSessionId']= 1;
+        $this->object->changeOrderPlanContent(0,$parameters);
 
     }
 }
